@@ -14,4 +14,5 @@ export class WarehouseCard {
   @Input() localisation: string = '';
   @Input() capacite: number = 0;
   @Input() totalProduits: number = 0;
+
 }

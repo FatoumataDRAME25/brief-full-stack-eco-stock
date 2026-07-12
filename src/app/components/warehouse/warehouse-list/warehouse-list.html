@@ -28,20 +28,7 @@
         class="w-full pl-9 pr-4 py-2 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
       />
     </div>
-    <div class="flex items-center gap-2">
-      <button class="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
-        <i class="fa-solid fa-sliders text-gray-400"></i>
-        Filtres
-      </button>
-      <!-- Vue grille (active) -->
-      <button class="p-2 text-blue-600 bg-blue-50 border border-blue-200 rounded-lg">
-        <i class="fa-solid fa-grip"></i>
-      </button>
-      <!-- Vue liste -->
-      <button class="p-2 text-gray-400 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
-        <i class="fa-solid fa-list"></i>
-      </button>
-    </div>
+    
   </div>
 
   <!-- Grille de cards -->
@@ -49,11 +36,11 @@
 
     @for (warehouse of warehouses(); track warehouse.id){
       <app-warehouse-card
-      [id]="warehouse.id" 
+      [id]="warehouse.id"
       [nom]="warehouse.nom"
       [localisation]="warehouse.localisation"
       [capacite]="warehouse.capacite"
-      [totalProduits]="0"
+      [totalProduits]="totalProduits(warehouse.id)"
       />
     }
 

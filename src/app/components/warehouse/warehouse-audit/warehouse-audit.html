@@ -134,10 +134,12 @@
   </div>
   <!-- Actions bas de page -->
   <div class="flex items-center justify-end gap-3  border-t border-gray-100">
-      <button class="px-6 py-2.5 text-sm font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 transition" (click)="deleteWarehouse()">
+      <button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-600 bg-white border border-red-200 rounded-lg hover:bg-red-50 transition" (click)="deleteWarehouse()">
+        <i class="fa-solid fa-trash"></i>
         Supprimer
       </button>
-      <button class="px-6 py-2.5 text-sm font-medium text-white bg-orange-400 rounded-lg hover:bg-orange-500 transition" (click)="showForm = true">
+      <button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition" (click)="showForm = true">
+        <i class="fa-solid fa-pen"></i>
         Modifier
       </button>
   </div>

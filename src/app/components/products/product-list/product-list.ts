@@ -15,6 +15,7 @@ export class ProductList implements  OnInit{
   private productService = inject(ProductService)
   private warehouseService = inject(WarehouseService)
   showForm = false
+  
 
   warehouses = signal<Warehouse[]>([])
   products = signal<Product[]>([])

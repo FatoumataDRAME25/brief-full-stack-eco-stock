@@ -16,6 +16,11 @@ export interface Product{
 
 }
 
+export interface ProductTransferResponse {
+  message: string;
+  product: Product;
+}
+
 @Injectable({providedIn: 'root'})
 
 export class ProductService{
@@ -42,6 +47,11 @@ export class ProductService{
 
   deleteProduct(id:number): Observable<void>{
     return this.http.delete<void>(`${this.baseUrl}${id}/`)
+  }
+
+  transfer(id: number, warehouseId:number): Observable<ProductTransferResponse>{
+    return this.http.post<ProductTransferResponse>(`${this.baseUrl}${id}/transfer/`, {warehouse_id:warehouseId})
+
   }
 }
 

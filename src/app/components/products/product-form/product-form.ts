@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, OnInit, Output, signal } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Product, ProductService } from '../services/product.service';
 import { Warehouse, WarehouseService } from '../../warehouse/services/warehouse.service';
@@ -12,6 +12,7 @@ import { Warehouse, WarehouseService } from '../../warehouse/services/warehouse.
 export class ProductForm implements OnInit{
   @Output() fermer = new EventEmitter<void>()
   @Output() saved = new EventEmitter<Product>();
+  @Input() product: Product | null = null
 
   private fb = inject(FormBuilder)
   private productService = inject(ProductService)
@@ -27,7 +28,12 @@ export class ProductForm implements OnInit{
   })
 
   onSubmit(): void{
-    this.productService.addProduct(this.form.getRawValue()).subscribe({
+    const payload = this.form.getRawValue()
+    const move = this.product !== null
+
+    ? this.productService.updateProduct(payload, this.product.id)
+    : this.productService.addProduct(payload)
+    move.subscribe({
       next: (data) =>{
         this.saved.emit(data)
         this.fermer.emit()
@@ -49,6 +55,16 @@ export class ProductForm implements OnInit{
 
       }
     })
+
+    if (this.product !== null) {
+      this.form.patchValue({
+        nom: this.product.nom,
+        quantite: this.product.quantite,
+        date_expiration: this.product.date_expiration,
+        etat: this.product.etat,
+        warehouse: this.product.warehouse
+      })
+    }
   }
 
 }

@@ -75,10 +75,26 @@
               <span class="text-sm font-medium text-gray-500">{{product.date_expiration}}</span>
             </td>
             <td class="px-6 py-4">
-              <span class="inline-flex items-center gap-1.5 text-xs font-medium text-green-600 bg-green-50 border border-green-200 px-2.5 py-1 rounded-full">
-                <span class="w-1.5 h-1.5 bg-emerald-200 rounded-full"></span>
-                {{product.etat}}
-              </span>
+              @switch (product.etat) {
+                @case ('disponible') {
+                  <span class="inline-flex items-center gap-1.5 text-xs font-medium text-green-600 bg-green-50 border border-green-200 px-2.5 py-1 rounded-full">
+                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                    Disponible
+                  </span>
+                }
+                @case ('reserve') {
+                  <span class="inline-flex items-center gap-1.5 text-xs font-medium text-orange-600 bg-orange-50 border border-orange-200 px-2.5 py-1 rounded-full">
+                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full"></span>
+                    Réservé
+                  </span>
+                }
+                @case ('perime') {
+                  <span class="inline-flex items-center gap-1.5 text-xs font-medium text-red-600 bg-red-50 border border-red-200 px-2.5 py-1 rounded-full">
+                    <span class="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                    Périmé
+                  </span>
+                }
+              }
             </td>
             <td class="px-6 py-4 text-sm text-gray-600">
               <a [routerLink]="['/products',product.id]">voir plus</a>
@@ -91,9 +107,7 @@
 
     <!-- Pagination -->
     <div class="flex items-center justify-between px-6 py-4 border-t border-gray-100">
-      <p class="text-sm text-gray-500">
-        Affichage de <span class="font-medium text-gray-700">1-5</span> sur <span class="font-medium text-gray-700">1,245</span> produits
-      </p>
+
       <div class="flex items-center gap-1">
         <button class="p-1.5 text-gray-400 rounded-lg hover:bg-gray-50 transition" aria-label="Précédent">
           <i class="fa-solid fa-chevron-left text-xs"></i>
