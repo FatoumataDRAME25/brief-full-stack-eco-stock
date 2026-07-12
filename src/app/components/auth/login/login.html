@@ -1,0 +1,88 @@
+<!-- Page Login Eco-Stock -->
+<div class="min-h-screen bg-blue-50 flex flex-col items-center justify-center px-4">
+
+  <!-- Card centrale -->
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 w-full max-w-md px-10 py-10">
+
+    <!-- Logo + Titre -->
+    <div class="flex flex-col items-center mb-8">
+      <div class="bg-blue-50 rounded-2xl p-4 mb-4">
+        <i class="fa-solid fa-warehouse text-blue-600 text-2xl"></i>
+      </div>
+      <h1 class="text-2xl font-bold text-gray-800">Bienvenue</h1>
+      <p class="text-gray-500 text-sm text-center mt-1">
+        Gérez vos entrepôts et stocks alimentaires en toute sécurité.
+      </p>
+    </div>
+
+    <!-- Formulaire -->
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
+
+      <!-- Adresse e-mail -->
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+          Adresse e-mail
+        </label>
+        <input formControlName="username"
+          id="email"
+          type="text"
+          placeholder="votre nom"
+          class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+        />
+      </div>
+
+      <!-- Mot de passe -->
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+          Mot de passe
+        </label>
+        <div class="relative">
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            placeholder="••••••••"
+            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition pr-11"
+          />
+          <!-- Bouton afficher/masquer mot de passe -->
+          <button
+            type="button"
+
+            class="absolute inset-y-0 right-3 flex items-center text-gray-400 hover:text-gray-600 transition"
+
+          >
+            <i  class="fa-regular fa-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Se souvenir + Mot de passe oublié -->
+      <div class="flex items-center justify-between">
+        <label class="flex items-center gap-2 cursor-pointer select-none">
+          <input
+            type="checkbox"
+            class="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+          />
+          <span class="text-sm text-gray-600">Se souvenir de moi</span>
+        </label>
+        <a href="#" class="text-sm text-blue-600 font-medium hover:underline">
+          Mot de passe oublié ?
+        </a>
+      </div>
+
+      <!-- Bouton connexion -->
+      <button
+        type="submit"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm py-3 rounded-lg flex items-center justify-center gap-2 transition focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+      >
+        Se connecter
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <p class="mt-8 text-xs text-gray-400">© 2024 Eco-Stock. Tous droits réservés.</p>
+
+</div>

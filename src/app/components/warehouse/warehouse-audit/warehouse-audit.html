@@ -1,0 +1,145 @@
+<!-- Page Audit de l'entrepôt -->
+@if (showForm) {
+  <app-warehouse-form
+    [warehouse]="warehouse()"
+    (fermer)="onCloseAudit()"
+    (saved)="onWarehouseSaved()"
+  />
+}
+
+<div class="space-y-6">
+
+  <!-- En-tête -->
+  <div class="flex items-start justify-between">
+    <div class="flex items-center gap-3">
+      <div class="bg-blue-50 rounded-xl p-2.5">
+        <i class="fa-solid fa-warehouse text-blue-600 text-lg"></i>
+      </div>
+      <div>
+        <h1 class="text-xl font-bold text-gray-800">Audit de l'entrepôt</h1>
+        <p class="text-sm text-gray-400">Analyse détaillée des performances et de l'inventaire.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cartes statistiques -->
+  <div class="grid grid-cols-6 gap-4">
+    @if (warehouse(); as w) {
+      <!-- Entrepôt -->
+    <div class="bg-white rounded-xl border border-gray-200 p-4 flex flex-col items-center text-center">
+      <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide flex items-center gap-1 mb-2">
+        <i class="fa-solid fa-warehouse text-blue-400"></i>
+        Entrepôt
+      </p>
+      <p class="text-sm font-bold text-gray-800"> {{w.nom}} </p>
+    </div>
+
+    <!-- Capacité -->
+    <div class="bg-white rounded-xl border border-gray-200 p-4 flex flex-col items-center text-center">
+      <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Capacité</p>
+      <p class="text-2xl font-bold text-gray-800"> {{w.capacite}} </p>
+    </div>
+    }
+
+    <!-- Total Produits -->
+    <div class="bg-white rounded-xl border border-gray-200 p-4 flex flex-col items-center text-center">
+      <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Total Produits</p>
+      <p class="text-2xl font-bold text-gray-800">{{ totalProduits() }}</p>
+    </div>
+
+    <!-- Disponibles -->
+    <div class="bg-white rounded-xl border border-gray-200 p-4 flex flex-col items-center text-center">
+      <p class="text-xs font-semibold text-green-500 uppercase tracking-wide mb-2">Disponibles</p>
+      <p class="text-2xl font-bold text-gray-800">{{ disponibles() }}</p>
+    </div>
+
+    <!-- Réservés -->
+    <div class="bg-white rounded-xl border border-gray-200 p-4 flex flex-col items-center text-center">
+      <p class="text-xs font-semibold text-orange-400 uppercase tracking-wide mb-2">Réservés</p>
+      <p class="text-2xl font-bold text-gray-800">{{ reserves() }}</p>
+    </div>
+
+    <!-- Périmés -->
+    <div class="bg-white rounded-xl border border-gray-200 p-4 flex flex-col items-center text-center">
+      <p class="text-xs font-semibold text-red-400 uppercase tracking-wide mb-2">Périmés</p>
+      <p class="text-2xl font-bold text-gray-800">{{ perimes() }}</p>
+    </div>
+
+  </div>
+
+  <!-- Inventaire actuel -->
+  <div class="bg-white rounded-xl border border-gray-200">
+
+    <!-- En-tête tableau -->
+    <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+      <h2 class="text-base font-semibold text-gray-800">Inventaire Actuel</h2>
+      <div class="relative w-72">
+        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+        <input
+          type="text"
+          placeholder="Rechercher un produit..."
+          class="w-full pl-9 pr-4 py-2 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+        />
+      </div>
+    </div>
+
+    <!-- Tableau -->
+    <table class="w-full">
+      <thead>
+        <tr class="text-xs font-semibold text-gray-400 uppercase tracking-wide border-b border-gray-100">
+          <th class="text-left px-6 py-3">Produit</th>
+          <th class="text-left px-6 py-3">Quantité</th>
+          <th class="text-left px-6 py-3">Expiration</th>
+          <th class="text-left px-6 py-3">État</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-50">
+
+        @for (product of products(); track product.id) {
+          <tr class="hover:bg-gray-50 transition">
+            <td class="px-6 py-4 text-sm text-gray-700">{{ product.nom }}</td>
+            <td class="px-6 py-4 text-sm text-gray-500">{{ product.quantite }}</td>
+            <td class="px-6 py-4 text-sm text-gray-600">{{ product.date_expiration }}</td>
+            <td class="px-6 py-4">
+              @switch (product.etat) {
+                @case ('disponible') {
+                  <span class="inline-flex items-center text-xs font-medium text-green-600 bg-green-50 border border-green-200 px-2.5 py-1 rounded-full">
+                    Disponible
+                  </span>
+                }
+                @case ('reserve') {
+                  <span class="inline-flex items-center text-xs font-medium text-orange-600 bg-orange-50 border border-orange-200 px-2.5 py-1 rounded-full">
+                    Réservé
+                  </span>
+                }
+                @case ('perime') {
+                  <span class="inline-flex items-center text-xs font-medium text-red-600 bg-red-50 border border-red-200 px-2.5 py-1 rounded-full">
+                    Périmé
+                  </span>
+                }
+              }
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="4" class="px-6 py-8 text-center text-sm text-gray-400">
+              Aucun produit dans cet entrepôt.
+            </td>
+          </tr>
+        }
+
+      </tbody>
+    </table>
+
+  </div>
+  <!-- Actions bas de page -->
+  <div class="flex items-center justify-end gap-3  border-t border-gray-100">
+      <button class="px-6 py-2.5 text-sm font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 transition" (click)="deleteWarehouse()">
+        Supprimer
+      </button>
+      <button class="px-6 py-2.5 text-sm font-medium text-white bg-orange-400 rounded-lg hover:bg-orange-500 transition" (click)="showForm = true">
+        Modifier
+      </button>
+  </div>
+
+</div>

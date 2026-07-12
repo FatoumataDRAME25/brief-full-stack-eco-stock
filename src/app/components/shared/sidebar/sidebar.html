@@ -1,0 +1,49 @@
+<!-- Sidebar -->
+<div class="flex flex-col h-full w-56 bg-white border-r border-gray-100 px-3 py-5">
+
+  <!-- Logo -->
+  <div class="flex items-center gap-2 px-2 mb-8">
+    <div class="bg-blue-600 rounded-lg p-1.5">
+      <i class="fa-solid fa-warehouse text-white text-sm"></i>
+    </div>
+    <span class="font-bold text-gray-800 text-base">Eco-Stock</span>
+  </div>
+
+  <!-- Navigation principale -->
+  <nav class="flex flex-col gap-1 flex-1">
+    <a routerLink="/dashboard"
+      routerLinkActive="bg-blue-50 text-blue-600"
+      class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-50 text-blue-600 font-medium text-sm">
+      <i class="fa-solid fa-gauge-high w-4 text-center"></i>
+      Tableau de bord
+    </a>
+    <a routerLink="/warehouses"
+      routerLinkActive="bg-blue-50 text-blue-600"
+      class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 font-medium text-sm transition">
+      <i class="fa-solid fa-warehouse w-4 text-center"></i>
+      Entrepôts
+    </a>
+    <a routerLink="/products"
+      routerLinkActive="bg-blue-50 text-blue-600"
+      class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 font-medium text-sm transition">
+      <i class="fa-solid fa-box w-4 text-center"></i>
+      Produits
+    </a>
+    <a routerLink="/transferts"
+      routerLinkActive="bg-blue-50 text-blue-600"
+      class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 font-medium text-sm transition">
+      <i class="fa-solid fa-right-left w-4 text-center"></i>
+      Transferts
+    </a>
+  </nav>
+
+  <!-- Paramètres en bas -->
+  <div class="border-t border-gray-100 pt-3 mt-3">
+    <button (click)="onLogout()"
+      class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-500 hover:bg-red-50 font-medium text-sm transition">
+      <i class="fa-solid fa-right-from-bracket w-4 text-center"></i>
+      Déconnexion
+    </button>
+  </div>
+
+</div>

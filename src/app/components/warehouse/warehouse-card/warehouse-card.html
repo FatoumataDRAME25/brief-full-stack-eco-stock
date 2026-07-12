@@ -1,0 +1,41 @@
+<!-- Carte entrepôt -->
+<div class="bg-white rounded-xl border border-gray-200 p-5 flex flex-col gap-4 hover:shadow-md transition">
+
+  <!-- Icône entrepôt -->
+  <div class="bg-blue-50 rounded-xl p-3 w-fit">
+    <i class="fa-solid fa-warehouse text-blue-600 text-lg"></i>
+  </div>
+
+  <!-- Nom + Localisation -->
+  <div>
+    <h3 class="font-semibold text-gray-800 text-base">{{ nom }}</h3>
+    <p class="text-xs text-gray-400 flex items-center gap-1 mt-1">
+      <i class="fa-solid fa-location-dot text-gray-400"></i>
+      {{ localisation }}
+    </p>
+  </div>
+
+  <!-- Capacité -->
+  <div class="flex items-center justify-between text-sm">
+    <span class="text-gray-500">Capacité</span>
+    <span class="font-medium text-gray-700">{{ capacite }}</span>
+  </div>
+
+  <!-- Séparateur -->
+  <hr class="border-gray-100" />
+
+  <!-- Total produits -->
+  <div class="flex items-center justify-between">
+    <span class="text-xs font-semibold text-gray-400 uppercase tracking-wide">Total Produits</span>
+    <span class="text-xl font-bold text-gray-800">{{ totalProduits | number }}</span>
+  </div>
+
+  <!-- Actions -->
+  <div class="flex items-center justify-between pt-1">
+    <a [routerLink]="['/warehouses', id, 'audit']" class="text-sm text-gray-700 font-medium hover:text-blue-600 transition flex items-center gap-1">
+      Voir les détails
+      <i class="fa-solid fa-arrow-right text-xs"></i>
+    </a>
+  </div>
+
+</div>
