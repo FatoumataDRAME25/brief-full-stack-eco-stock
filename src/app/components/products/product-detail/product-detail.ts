@@ -9,6 +9,8 @@ import { ProductTransfertModal } from '../product-transfert-modal/product-transf
   styleUrl: './product-detail.css',
 })
 export class ProductDetail implements OnInit{
+
+  
   showTransferModal = false;
   productId: string | null = null;
   constructor(private route: ActivatedRoute){}

@@ -32,11 +32,11 @@ export class ProductService{
     return this.http.get<Product>(`${this.baseUrl}${id}/`)
   }
 
-  addProduct(product: Omit<Product,'id'>): Observable<Product>{
+  addProduct(product: Omit<Product,'id'| 'utilisateur'>): Observable<Product>{
     return this.http.post<Product>(this.baseUrl, product)
   }
 
-  updateProduct(product:Omit<Product, 'id'>,id:number): Observable<Product>{
+  updateProduct(product:Omit<Product, 'id'| 'utilisateur'>,id:number): Observable<Product>{
     return this.http.patch<Product>(`${this.baseUrl}${id}/`, product)
   }
 

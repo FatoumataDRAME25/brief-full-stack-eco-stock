@@ -14,22 +14,13 @@ export class ProductList implements  OnInit{
 
   private productService = inject(ProductService)
   private warehouseService = inject(WarehouseService)
+  showForm = false
 
   warehouses = signal<Warehouse[]>([])
   products = signal<Product[]>([])
 
   ngOnInit(): void {
-    this.productService.getProduct().subscribe({
-      next: (data) =>{
-        this.products.set(data)
-      },
-
-      error: (err) =>{
-        console.log(err);
-
-      }
-    })
-
+    this.fetchProducts()
     this.warehouseService.getWarehouse().subscribe({
       next: (data) =>{
         this.warehouses.set(data)
@@ -49,4 +40,20 @@ export class ProductList implements  OnInit{
         return 'Inconnu'
       }
   }
+
+  fetchProducts(): void{
+    this.productService.getProduct().subscribe({
+      next: (data) =>{
+        this.products.set(data)
+      },
+
+      error: (err) =>{
+        console.log(err);
+
+      }
+    })
+ }
+ onProductSaved(product: Product): void{
+  this.fetchProducts()
+ }
 }

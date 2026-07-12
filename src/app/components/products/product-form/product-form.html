@@ -21,7 +21,7 @@
     </div>
 
     <!-- Formulaire -->
-    <form class="space-y-5">
+    <form class="space-y-5" [formGroup]="form" (ngSubmit)="onSubmit()">
 
       <!-- Nom du produit -->
       <div>
@@ -30,6 +30,7 @@
         </label>
         <input
           type="text"
+          formControlName="nom"
           placeholder="ex: Pommes Gala Bio"
           class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
         />
@@ -43,6 +44,7 @@
         </label>
         <input
           type="number"
+          formControlName="quantite"
           placeholder="0"
           class="w-full border border-red-300 rounded-lg px-4 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent transition"
         />
@@ -58,14 +60,14 @@
         <label class="block text-sm font-medium text-gray-700 mb-1">
           Entrepôt de stockage
         </label>
-        <select
+        <select formControlName="warehouse"
           class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition appearance-none bg-white"
         >
           <option value="" disabled selected>Sélectionner un entrepôt...</option>
-          <option value="1">Paris-Est B4</option>
-          <option value="2">Lyon-Nord A1</option>
-          <option value="3">Marseille-Sud C2</option>
-          <option value="4">Nantes-Ouest D3</option>
+          @for (warehouse of warehouses(); track warehouse.id){
+            <option [value]="warehouse.id"> {{warehouse.nom}} </option>
+          }
+
         </select>
       </div>
 
@@ -79,8 +81,8 @@
           </label>
           <div class="relative">
             <input
-              type="text"
-              placeholder="DD/MM/YYYY"
+              type="date"
+              formControlName="date_expiration"
               class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition pr-10"
             />
             <i class="fa-regular fa-calendar absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
@@ -94,12 +96,12 @@
             État initial
           </label>
           <div class="relative">
-            <select
+            <select formControlName="etat"
               class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition appearance-none bg-white"
             >
-              <option value="disponible" class="text-green-600" selected>Disponible</option>
-              <option value="reserve">Réservé</option>
-              <option value="perime">Périmé</option>
+               <option value="disponible" class="text-green-600">disponible</option>
+              <option value="reserve">reserve</option>
+              <option value="perime">perime</option>
             </select>
             <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs pointer-events-none"></i>
           </div>
@@ -107,7 +109,7 @@
 
       </div>
 
-      
+
 
       <!-- Actions -->
       <div class="flex items-center justify-end gap-3 pt-2">

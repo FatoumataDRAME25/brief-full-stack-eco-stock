@@ -1,8 +1,8 @@
 <!-- Modale product-form (visible si showForm est true) -->
- <!--@if (showForm) {
+ @if (showForm) {
 
-   <app-product-form (fermer)="showForm=false"/>
-}-->
+   <app-product-form (fermer)="showForm=false" (saved)="onProductSaved($event)"/>
+}
 
 <!-- Page Inventaire des Produits -->
 <div class="space-y-6">
@@ -13,7 +13,7 @@
       <h1 class="text-2xl font-bold text-gray-800">Inventaire des Produits</h1>
       <p class="text-sm text-gray-500 mt-0.5">Gérez et suivez l'état de vos stocks en temps réel.</p>
     </div>
-    <button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition">
+    <button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition" (click)="showForm =true">
       <i class="fa-solid fa-plus"></i>
       Ajouter un produit
     </button>
