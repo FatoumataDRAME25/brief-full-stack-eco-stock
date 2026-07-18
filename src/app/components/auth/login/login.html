@@ -14,7 +14,12 @@
         Gérez vos entrepôts et stocks alimentaires en toute sécurité.
       </p>
     </div>
-
+     @if (errorMessage()) {
+        <div class="mb-4 flex items-center gap-2 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-2.5">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          {{ errorMessage() }}
+        </div>
+      }
     <!-- Formulaire -->
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
 
@@ -27,8 +32,15 @@
           id="email"
           type="text"
           placeholder="votre nom"
+          [class.input-error]="username?.invalid && username?.touched"
           class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
         />
+        @if (username?.invalid && username?.touched) {
+          <p class="form-error-message">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            Le nom d'utilisateur est obligatoire.
+          </p>
+        }
       </div>
 
       <!-- Mot de passe -->
@@ -38,13 +50,20 @@
         </label>
         <div class="relative">
           <input
+            [class.input-error]="password?.invalid && password?.touched"
             id="password"
             type="password"
             formControlName="password"
             placeholder="••••••••"
             class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition pr-11"
           />
-          <!-- Bouton afficher/masquer mot de passe -->
+          @if (password?.invalid && password?.touched) {
+          <p class="form-error-message">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            Veuillez renseigner votre mot de passe.
+          </p>
+          }
+          <!-- Bouton afficher/masquer mot de passe
           <button
             type="button"
 
@@ -52,28 +71,16 @@
 
           >
             <i  class="fa-regular fa-eye"></i>
-          </button>
+          </button> -->
         </div>
-      </div>
-
-      <!-- Se souvenir + Mot de passe oublié -->
-      <div class="flex items-center justify-between">
-        <label class="flex items-center gap-2 cursor-pointer select-none">
-          <input
-            type="checkbox"
-            class="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-          />
-          <span class="text-sm text-gray-600">Se souvenir de moi</span>
-        </label>
-        <a href="#" class="text-sm text-blue-600 font-medium hover:underline">
-          Mot de passe oublié ?
-        </a>
       </div>
 
       <!-- Bouton connexion -->
       <button
         type="submit"
-        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm py-3 rounded-lg flex items-center justify-center gap-2 transition focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        [disabled]="form.invalid"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm py-3 rounded-lg flex items-center justify-center gap-2 transition
+        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         Se connecter
         <i class="fa-solid fa-arrow-right"></i>

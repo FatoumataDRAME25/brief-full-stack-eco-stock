@@ -24,17 +24,18 @@
       <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
       <input
         type="text"
+        [(ngModel)]="searchTerm"
         placeholder="Rechercher un entrepôt..."
         class="w-full pl-9 pr-4 py-2 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
       />
     </div>
-    
+
   </div>
 
   <!-- Grille de cards -->
   <div class="grid grid-cols-3 gap-5">
 
-    @for (warehouse of warehouses(); track warehouse.id){
+    @for (warehouse of filterWarehouse(); track warehouse.id){
       <app-warehouse-card
       [id]="warehouse.id"
       [nom]="warehouse.nom"
@@ -42,6 +43,9 @@
       [capacite]="warehouse.capacite"
       [totalProduits]="totalProduits(warehouse.id)"
       />
+    }
+    @empty {
+      <p>Aucun Entrepot trouve</p>
     }
 
     <!-- Card "Ajouter un entrepôt" -->

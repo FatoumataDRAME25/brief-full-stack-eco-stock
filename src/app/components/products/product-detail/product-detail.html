@@ -12,14 +12,7 @@
   <!-- Fil d'ariane + Actions -->
   <div class="flex items-center justify-between">
     <div>
-      <!-- Fil d'ariane -->
-      <p class="text-sm text-gray-400 mb-2">
-        <a href="#" class="hover:text-blue-600 transition">Tableau de bord</a>
-        <span class="mx-1">›</span>
-        <a href="#" class="hover:text-blue-600 transition">Produits</a>
-        <span class="mx-1">›</span>
-        <span class="text-blue-600 font-medium">Détail du produit</span>
-      </p>
+      
       <h1 class="text-2xl font-bold text-gray-800">Détail du produit</h1>
       <p class="text-sm text-gray-500 mt-0.5">Consultez les informations détaillées et gérez ce produit.</p>
     </div>
@@ -35,7 +28,10 @@
         <i class="fa-solid fa-pen"></i>
         Modifier
       </button>
-      <button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition" (click)="showTransferModal=true">
+      <button
+        [disabled]="product()?.etat === 'perime'"
+        class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white
+         bg-blue-600 rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed" (click)="showTransferModal=true">
         <i class="fa-solid fa-right-left"></i>
         Transférer
       </button>

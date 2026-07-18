@@ -21,13 +21,25 @@ export class ProductForm implements OnInit{
 
   form= this.fb.nonNullable.group({
     nom: ['', [Validators.required]],
-    quantite: [0, [Validators.required]],
+    quantite: [0, [Validators.required, Validators.min(1)]],
     date_expiration: ['', [Validators.required]],
     etat: ['disponible'as Product['etat'], [Validators.required]],
-    warehouse: [0, [Validators.required]]
+    warehouse: [0, [Validators.required, Validators.min(1)]]
   })
 
+  get nom() {return this.form.get('nom')}
+  get quantite() {return this.form.get('quantite')}
+  get date_expiration() {return this.form.get('date_expiration')}
+  get etat() {return this.form.get('etat')}
+  get warehouse() {return this.form.get('warehouse')}
+
   onSubmit(): void{
+
+
+    if(this.form.invalid){
+      alert('Veuillez verifier que tous les champs du forumlaire sont valides')
+      return
+    }
     const payload = this.form.getRawValue()
     const move = this.product !== null
 

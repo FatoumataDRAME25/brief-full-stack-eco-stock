@@ -25,6 +25,7 @@ export class LoginService {
     return this.http.post<AuthTokens>(this.baseUrl, identify).pipe(tap((reponse) =>{
       localStorage.setItem('access_token', reponse.access);
       localStorage.setItem('refresh_token', reponse.refresh);
+      localStorage.setItem('username', identify.username);
     }))
   }
 
@@ -40,6 +41,7 @@ export class LoginService {
 logout(): void{
   localStorage.removeItem('access_token')
   localStorage.removeItem('refresh_token')
+  localStorage.removeItem('username')
   this.router.navigate(['/login'])
 }
 
@@ -51,5 +53,9 @@ isLoggedIn():boolean{
   else{
     return false;
   }
+}
+
+getUsername(): string | null {
+  return localStorage.getItem('username');
 }
 }

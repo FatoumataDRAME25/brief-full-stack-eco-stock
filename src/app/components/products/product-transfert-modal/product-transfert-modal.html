@@ -40,10 +40,26 @@
             <p class="text-sm font-bold text-gray-800">{{ getWarehouseName(p.warehouse) }}</p>
           </div>
           <div>
-            <span class="inline-flex items-center gap-1.5 text-xs font-medium text-green-700 bg-green-50 px-2.5 py-1 rounded-full w-fit">
-              <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
-              {{ p.etat }}
-            </span>
+           @switch (product.etat) {
+                @case ('disponible') {
+                  <span class="inline-flex items-center gap-1.5 text-xs font-medium text-green-600 bg-green-50 border border-green-200 px-2.5 py-1 rounded-full">
+                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                    Disponible
+                  </span>
+                }
+                @case ('reserve') {
+                  <span class="inline-flex items-center gap-1.5 text-xs font-medium text-orange-600 bg-orange-50 border border-orange-200 px-2.5 py-1 rounded-full">
+                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full"></span>
+                    Réservé
+                  </span>
+                }
+                @case ('perime') {
+                  <span class="inline-flex items-center gap-1.5 text-xs font-medium text-red-600 bg-red-50 border border-red-200 px-2.5 py-1 rounded-full">
+                    <span class="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                    Périmé
+                  </span>
+                }
+              }
           </div>
         </div>
       }

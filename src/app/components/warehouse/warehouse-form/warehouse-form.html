@@ -13,8 +13,14 @@
           <i class="fa-solid fa-warehouse text-blue-600 text-lg"></i>
         </div>
         <div>
-          <h2 class="text-lg font-semibold text-gray-800">Ajouter un entrepôt</h2>
-          <p class="text-sm text-gray-400">Saisissez les informations de votre nouvelle unité.</p>
+          @if(warehouse !== null){
+            <h2 class="text-lg font-semibold text-gray-800">Modifier les informations de cet entrepôt</h2>
+            <p class="text-sm text-gray-400">Saisissez les informations de votre nouvelle entrepot.</p>
+          } @else{
+            <h2 class="text-lg font-semibold text-gray-800">Ajouter un entrepôt</h2>
+            <p class="text-sm text-gray-400">Saisissez les informations de votre nouvelle entrepot.</p>
+          }
+
         </div>
       </div>
       <button class="text-gray-400 hover:text-gray-600 transition" aria-label="Fermer" (click)="fermer.emit()">
@@ -31,12 +37,19 @@
           Nom de l'entrepôt
         </label>
         <input
+          [class.input-error]="nom?.invalid && nom?.touched"
           formControlName = "nom"
           type="text"
-          placeholder="Entrepôt Principal Lyon"
+          placeholder="Entrepôt Dakar"
           class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
         />
         <p class="text-xs text-gray-400 mt-1">Identifiant unique pour votre réseau de distribution.</p>
+        @if(nom?.invalid && nom?.touched) {
+          <p class="form-error-message">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            Le nom de l'entrepot est obligatoire
+          </p>
+        }
       </div>
 
       <!-- Localisation -->
@@ -44,15 +57,21 @@
         <label class="block text-sm font-medium text-gray-700 mb-1">
           Localisation
         </label>
-        <div class="relative">
-          <i class="fa-solid fa-location-dot absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+
           <input
+            [class.input-error]="localisation?.invalid && localisation?.touched"
             formControlName = "localisation"
             type="text"
-            placeholder="69007 Lyon, France"
-            class="w-full border border-gray-300 rounded-lg pl-9 pr-4 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+            placeholder="Dakar"
+            class="w-full border border-gray-300 rounded-lg  px-4 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
           />
-        </div>
+          @if (localisation?.invalid && localisation?.touched) {
+            <p class="form-error-message">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              Veuillez renseigner la localisation de l'entrepot
+            </p>
+          }
+
       </div>
 
       <!-- Capacité maximale -->
@@ -61,11 +80,18 @@
           Capacité maximale
         </label>
         <input
+          [class.input-error]="capacite?.invalid && capacite?.touched"
           formControlName = "capacite"
           type="number"
           class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
         />
         <p class="text-xs text-gray-400 mt-1">La capacité totale permet d'optimiser le taux d'occupation.</p>
+        @if(capacite?.invalid && capacite?.touched) {
+          <p class="form-error-message">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            La capacite doit etre superieur a 0
+          </p>
+        }
       </div>
 
       <!-- Actions -->
@@ -78,10 +104,17 @@
         </button>
         <button
           type="submit"
-          class="flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition"
+          [disabled]="form.invalid"
+          class="flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-white
+           bg-blue-600 rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <i class="fa-solid fa-plus"></i>
-          Enregistrer
+          @if(warehouse !== null){
+            Modifier
+          } @else{
+            Enregistrer
+          }
+
         </button>
       </div>
 

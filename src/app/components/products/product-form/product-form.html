@@ -11,8 +11,14 @@
           <i class="fa-solid fa-box text-blue-600 text-lg"></i>
         </div>
         <div>
-          <h2 class="text-lg font-semibold text-gray-800">Ajouter un produit</h2>
-          <p class="text-sm text-gray-400">Saisissez les informations de votre nouvel article alimentaire.</p>
+          @if(product !== null){
+            <h2 class="text-lg font-semibold text-gray-800">Modifier les informations de ce produit</h2>
+            <p class="text-sm text-gray-400">Saisissez les nouvelles informations de votre article alimentaire.</p>
+          } @else {
+            <h2 class="text-lg font-semibold text-gray-800">Ajouter un produit</h2>
+            <p class="text-sm text-gray-400">Saisissez les informations de votre nouvel article alimentaire.</p>
+          }
+
         </div>
       </div>
       <button class="text-gray-400 hover:text-gray-600 transition" aria-label="Fermer" (click)="fermer.emit()">
@@ -29,12 +35,20 @@
           Nom du produit
         </label>
         <input
+          [class.input-error]="nom?.invalid && nom?.touched"
           type="text"
           formControlName="nom"
           placeholder="ex: Pommes Gala Bio"
           class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
         />
         <p class="text-xs text-gray-400 mt-1">Le nom complet de l'article pour faciliter la recherche.</p>
+        @if (nom?.invalid && nom?.touched) {
+          <p class="form-error-message">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          Le nom est obligatoire
+        </p>
+        }
+
       </div>
 
       <!-- Quantité -->
@@ -43,16 +57,19 @@
           Quantité
         </label>
         <input
+          [class.input-error]="quantite?.invalid && quantite?.touched"
           type="number"
           formControlName="quantite"
           placeholder="0"
-          class="w-full border border-red-300 rounded-lg px-4 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent transition"
+          class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition"
         />
-        <!-- Message d'erreur -->
-        <p class="text-xs text-red-500 mt-1 flex items-center gap-1">
-          <i class="fa-solid fa-circle-exclamation"></i>
-          La quantité est obligatoire.
-        </p>
+
+        @if (quantite?.invalid && quantite?.touched) {
+          <p class="form-error-message">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            La quantité doit être supérieure à 0
+          </p>
+        }
       </div>
 
       <!-- Entrepôt de stockage -->
@@ -61,14 +78,21 @@
           Entrepôt de stockage
         </label>
         <select formControlName="warehouse"
+          [class.input-error]="warehouse?.invalid && warehouse?.touched"
           class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition appearance-none bg-white"
         >
-          <option value="" disabled selected>Sélectionner un entrepôt...</option>
+          <option value="0" disabled >Sélectionner un entrepôt...</option>
           @for (warehouse of warehouses(); track warehouse.id){
             <option [value]="warehouse.id"> {{warehouse.nom}} </option>
           }
-
         </select>
+        @if (warehouse?.invalid && warehouse?.touched) {
+          <p class="form-error-message">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            Veuillez sélectionner un entrepôt.
+          </p>
+        }
+
       </div>
 
       <!-- Date d'expiration + État initial -->
@@ -81,18 +105,24 @@
           </label>
           <div class="relative">
             <input
+              [class.input-error]="date_expiration?.invalid && date_expiration?.touched"
               type="date"
               formControlName="date_expiration"
               class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition pr-10"
             />
-            <i class="fa-regular fa-calendar absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            @if (date_expiration?.invalid && date_expiration?.touched) {
+              <p class="form-error-message">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                Veuillez renseigner la date
+              </p>
+            }
           </div>
         </div>
 
         <!-- État initial -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-1">
-            <i class="fa-solid fa-tag text-blue-500 text-xs"></i>
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+
             État initial
           </label>
           <div class="relative">
@@ -121,10 +151,17 @@
         </button>
         <button
           type="submit"
-          class="flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition"
+          [disabled]="form.invalid"
+          class="flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-white
+           bg-blue-600 rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <i class="fa-solid fa-plus"></i>
-          Enregistrer
+          @if (product !== null) {
+            modifier
+          } @else {
+            Enregistrer
+          }
+
         </button>
       </div>
 

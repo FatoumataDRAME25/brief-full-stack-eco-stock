@@ -4,10 +4,11 @@ import { WarehouseForm } from '../warehouse-form/warehouse-form';
 import { Warehouse, WarehouseService } from '../services/warehouse.service';
 import { RouterLink } from "@angular/router";
 import { Product, ProductService } from '../../products/services/product.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-warehouse-list',
-  imports: [WarehouseCard, WarehouseForm, RouterLink],
+  imports: [WarehouseCard, WarehouseForm,  FormsModule],
   templateUrl: './warehouse-list.html',
   styleUrl: './warehouse-list.css',
 })
@@ -17,7 +18,7 @@ export class WarehouseList implements OnInit{
   private productService = inject(ProductService);
   warehouses = signal<Warehouse[]>([]);
   products = signal<Product[]>([])
-
+  searchTerm = ''
   showForm = false;
 
 
@@ -65,5 +66,11 @@ export class WarehouseList implements OnInit{
   totalProduits(warehouseId: number): number {
   return this.products().filter((p) => p.warehouse === warehouseId).length;
 }
+
+filterWarehouse(): Warehouse[]{
+  return this.warehouses().filter((w) =>
+   w.nom.toLowerCase().includes(this.searchTerm.toLowerCase())
+)}
+
 }
 

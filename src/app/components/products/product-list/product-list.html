@@ -28,22 +28,32 @@
         <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
         <input
           type="text"
+          [(ngModel)]="searchTerm"
           placeholder="Rechercher un produit..."
           class="w-full pl-9 pr-4 py-2 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
         />
       </div>
       <!-- Filtre Entrepôt -->
-      <button class="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
-        <i class="fa-solid fa-warehouse text-gray-400"></i>
-        Entrepôt
-        <i class="fa-solid fa-chevron-down text-gray-400 text-xs"></i>
-      </button>
+      <select
+        [(ngModel)]="selectedWarehouseFilter"
+        class="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition bg-white"
+      >
+        <option [ngValue]="null">Tous les entrepôts</option>
+        @for (warehouse of warehouses(); track warehouse.id) {
+          <option [ngValue]="warehouse.id">{{ warehouse.nom }}</option>
+        }
+      </select>
+
       <!-- Filtre Statut -->
-      <button class="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
-        <i class="fa-solid fa-circle-check text-gray-400"></i>
-        Statut
-        <i class="fa-solid fa-chevron-down text-gray-400 text-xs"></i>
-      </button>
+      <select
+        [(ngModel)]="selectedStatusFilter"
+        class="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition bg-white"
+      >
+        <option value="">Tous les statuts</option>
+        <option value="disponible">Disponible</option>
+        <option value="reserve">Réservé</option>
+        <option value="perime">Périmé</option>
+      </select>
 
     </div>
 
@@ -59,7 +69,7 @@
           <th class="text-left px-6 py-3">Actions</th>
         </tr>
       </thead>
-      @for (product of products(); track product.id) {
+      @for (product of filteredProducts(); track product.id) {
         <tbody class="divide-y divide-gray-50">
           <tr>
             <td class="px-6 py-4">
@@ -95,6 +105,7 @@
                   </span>
                 }
               }
+
             </td>
             <td class="px-6 py-4 text-sm text-gray-600">
               <a [routerLink]="['/products',product.id]">voir plus</a>
@@ -102,27 +113,17 @@
           </tr>
         </tbody>
       }
+      @empty {
+        <tbody>
+          <tr>
+            <td colspan="6" class="px-6 py-8 text-center text-sm text-gray-400">
+              Aucun produit ne correspond à votre recherche.
+            </td>
+          </tr>
+        </tbody>
+      }
 
     </table>
-
-    <!-- Pagination -->
-    <div class="flex items-center justify-between px-6 py-4 border-t border-gray-100">
-
-      <div class="flex items-center gap-1">
-        <button class="p-1.5 text-gray-400 rounded-lg hover:bg-gray-50 transition" aria-label="Précédent">
-          <i class="fa-solid fa-chevron-left text-xs"></i>
-        </button>
-        <button class="px-3 py-1.5 text-sm font-medium text-white bg-blue-600 rounded-lg">1</button>
-        <button class="px-3 py-1.5 text-sm text-gray-600 rounded-lg hover:bg-gray-50 transition">2</button>
-        <button class="px-3 py-1.5 text-sm text-gray-600 rounded-lg hover:bg-gray-50 transition">3</button>
-        <span class="px-2 text-gray-400 text-sm">...</span>
-        <button class="px-3 py-1.5 text-sm text-gray-600 rounded-lg hover:bg-gray-50 transition">24</button>
-        <button class="p-1.5 text-gray-600 rounded-lg hover:bg-gray-50 transition" aria-label="Suivant">
-          <i class="fa-solid fa-chevron-right text-xs"></i>
-        </button>
-      </div>
-    </div>
-
   </div>
 
 </div>
