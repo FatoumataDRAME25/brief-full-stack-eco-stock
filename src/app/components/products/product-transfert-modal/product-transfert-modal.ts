@@ -20,7 +20,7 @@ export class ProductTransfertModal implements OnInit{
   private warehouseService = inject(WarehouseService);
 
   // Liste des entrepôts disponibles, pour remplir le <select>
-  warehouses = signal<Warehouse[]>([]);
+  warehouses = this.warehouseService.warehouses;
 
   // Stocke l'id de l'entrepôt choisi dans le <select> (relié via [(ngModel)])
   selectedWarehouseId : number | null = null
@@ -29,15 +29,7 @@ export class ProductTransfertModal implements OnInit{
 
 
   ngOnInit(): void {
-    this.warehouseService.getWarehouse().subscribe({
-      next: (data) => {
-        this.warehouses.set(data);
-      },
-      error: (err) =>{
-        console.log(err);
-
-      }
-    });
+    this.warehouseService.refreshWarehouses()
   }
 
   onTransfer(): void{

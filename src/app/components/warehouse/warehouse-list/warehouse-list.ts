@@ -16,47 +16,17 @@ export class WarehouseList implements OnInit{
 
   private warehouseService = inject(WarehouseService);
   private productService = inject(ProductService);
-  warehouses = signal<Warehouse[]>([]);
-  products = signal<Product[]>([])
+  warehouses = this.warehouseService.warehouses;
+  products = this.productService.products
   searchTerm = ''
   showForm = false;
 
 
   ngOnInit(): void {
-    this.fetchWarehouses()
-    this.fetchProducts()
+    this.warehouseService.refreshWarehouses()
+    this.productService.refreshProducts()
   }
 
-  // Recuperation de la liste des entrepots
-  fetchWarehouses(): void {
-    this.warehouseService.getWarehouse().subscribe({
-      next: (data) =>{
-        this.warehouses.set(data)
-
-      },
-      error: (err) =>{
-        console.log(err)
-      }
-    })
-  }
-
-
-  fetchProducts(): void {
-     this.productService.getProduct().subscribe({
-       next: (data) => {
-         this.products.set(data)
-       },
-       error: (err) => {
-         console.log(err)
-       }
-     })
-   }
-
-
-  // mis a jour de la liste des entrepots apres enregistrement
-  onWarehouseSaved(warehouse: Warehouse): void {
-    this.fetchWarehouses()
-  }
 
   // fermeture automatique du modal apres enregistrement
   closeForm(): void {

@@ -2,7 +2,7 @@ import { Product, ProductService } from '../../products/services/product.service
 import { WarehouseForm } from '../warehouse-form/warehouse-form';
 import { WarehouseService } from './../services/warehouse.service';
 import { Warehouse } from './../services/warehouse.service';
-import { Component, inject, OnInit, signal} from '@angular/core';
+import { Component, computed, inject, OnInit, signal} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -14,52 +14,31 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class WarehouseAudit implements OnInit{
 
   showForm = false;
-  products = signal<Product[]>([])
   private productService = inject(ProductService)
-  warehouse = signal<Warehouse | null>(null)
   private warehouseService= inject(WarehouseService)
   warehouseId: string | null = null;
   private router =inject(Router)
+
+ // Filtre les produits pour ne garder que ceux de CET entrepôt précis.
+  products = computed(() => {
+    return this.productService.products().filter((p) => p.warehouse === Number(this.warehouseId));
+  });
+
+  // Signal dérivé : recalculé automatiquement dès que productService.products() change,
+  // peu importe où dans l'application ce changement a eu lieu.
+  warehouse = computed(() => {
+    return this.warehouseService.warehouses().find((w) => w.id === Number(this.warehouseId)) ?? null;
+  });
+
   constructor(private route: ActivatedRoute){}
 
   ngOnInit(): void {
-    this.fetchWarehouse()
-    this.fetchProducts()
-
-  }
-
-  fetchWarehouse(): void {
+    this.warehouseService.refreshWarehouses()
+    this.productService.refreshProducts()
     this.warehouseId = this.route.snapshot.paramMap.get('id')
 
-    this.warehouseService.getById(Number(this.warehouseId)).subscribe({
-      next: (data) =>{
-        this.warehouse.set(data)
-      },
-      error: (err) =>{
-        console.log(err);
-
-      }
-    })
   }
 
-
-  fetchProducts(): void {
-    this.productService.getProduct().subscribe({
-      next: (data) => {
-        const produitsDeCetEntrepot = data.filter(
-          (p) => p.warehouse === Number(this.warehouseId)
-        );
-        this.products.set(produitsDeCetEntrepot);
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    })
-  }
-
-  onWarehouseSaved():void{
-    this.fetchWarehouse()
-  }
 
   onCloseAudit(): void{
     this.showForm= false

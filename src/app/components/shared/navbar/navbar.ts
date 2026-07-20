@@ -14,45 +14,17 @@ import { RouterLink } from '@angular/router';
 export class Navbar implements OnInit{
 
   private loginService = inject(LoginService)
-  private productService = inject(ProductService)
   private warehouseService = inject(WarehouseService)
-  products = signal<Product[]>([])
-  warehouses = signal<Warehouse[]>([])
+  warehouses = this.warehouseService.warehouses
 
   username = this.loginService.getUsername();
   searchTerm = ''
 
 
   ngOnInit(): void {
-    this.productService.getProduct().subscribe({
-      next: (data) => {
-        this.products.set(data)
-      },
-      error: (err) => {
-        console.log(err);
 
-      }
-    })
-
-    this.warehouseService.getWarehouse().subscribe({
-      next: (data) =>{
-        this.warehouses.set(data)
-      },
-      error: (err) => {
-        console.log(err);
-
-      }
-    })
+    this.warehouseService.refreshWarehouses()
   }
-
-  matchingProducts(): Product[] {
-  if (this.searchTerm.trim() === '') {
-    return [];
-  }
-  return this.products()
-    .filter((p) => p.nom.toLowerCase().includes(this.searchTerm.toLowerCase()))
-    .slice(0, 5);
-}
 
 matchingWarehouses(): Warehouse[] {
   if (this.searchTerm.trim() === '') {

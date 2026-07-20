@@ -14,12 +14,12 @@ export class Dashboard implements OnInit{
   private warehouseService = inject(WarehouseService);
   private productService = inject(ProductService);
   warehouses = signal<Warehouse[]>([]);
-  products = signal<Product[]>([]);
+  products = this.productService.products;
 
 
   ngOnInit(): void {
     this.fetchWarehouse()
-    this.fetchProduit()
+    this.productService.refreshProducts()
 
   }
 
@@ -37,17 +37,7 @@ export class Dashboard implements OnInit{
     })
   }
 
-  fetchProduit(): void{
-    this.productService.getProduct().subscribe({
-      next: (data) => {
-        this.products.set(data)
-      },
-      error: (err) =>{
-        console.log(err);
 
-      }
-    })
-  }
   totalProduit(): number{
     return this.products().length
   }

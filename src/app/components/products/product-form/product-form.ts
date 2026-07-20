@@ -17,7 +17,7 @@ export class ProductForm implements OnInit{
   private fb = inject(FormBuilder)
   private productService = inject(ProductService)
   private warehouseService = inject(WarehouseService)
-  warehouses = signal<Warehouse[]>([])
+  warehouses = this.warehouseService.warehouses
 
   form= this.fb.nonNullable.group({
     nom: ['', [Validators.required]],
@@ -58,15 +58,7 @@ export class ProductForm implements OnInit{
   }
 
   ngOnInit(): void {
-    this.warehouseService.getWarehouse().subscribe({
-      next: (data) =>{
-        this.warehouses.set(data)
-      },
-      error: (err) =>{
-        console.log(err);
-
-      }
-    })
+    this.warehouseService.refreshWarehouses()
 
     if (this.product !== null) {
       this.form.patchValue({

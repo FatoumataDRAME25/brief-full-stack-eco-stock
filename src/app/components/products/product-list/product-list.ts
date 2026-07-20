@@ -20,11 +20,11 @@ export class ProductList implements  OnInit{
   selectedWarehouseFilter: number | null = null;
   selectedStatusFilter: string = '';
   warehouses = signal<Warehouse[]>([])
-  products = signal<Product[]>([])
+  products = this.productService.products
 
 
   ngOnInit(): void {
-    this.fetchProducts()
+    this.productService.refreshProducts()
     this.warehouseService.getWarehouse().subscribe({
       next: (data) =>{
         this.warehouses.set(data)
@@ -45,28 +45,13 @@ export class ProductList implements  OnInit{
       }
   }
 
-  fetchProducts(): void{
-    this.productService.getProduct().subscribe({
-      next: (data) =>{
-        this.products.set(data)
-      },
-
-      error: (err) =>{
-        console.log(err);
-
-      }
-    })
- }
- onProductSaved(product: Product): void{
-  this.fetchProducts()
- }
 
  filteredProducts(): Product[] {
      return this.products().filter((p) => {
 
       const matchNom = p.nom.toLowerCase().includes(this.searchTerm.toLowerCase());
       const matchWarehouse = this.selectedWarehouseFilter === null || p.warehouse === this.selectedWarehouseFilter;
-      const matchStatus = this.selectedStatusFilter === '' || p.etat === this.selectedStatusFilter;    
+      const matchStatus = this.selectedStatusFilter === '' || p.etat === this.selectedStatusFilter;
 
       return matchNom && matchWarehouse && matchStatus;
      }

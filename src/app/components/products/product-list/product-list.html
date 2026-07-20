@@ -1,7 +1,7 @@
 <!-- Modale product-form (visible si showForm est true) -->
  @if (showForm) {
 
-   <app-product-form (fermer)="showForm=false" (saved)="onProductSaved($event)"/>
+   <app-product-form (fermer)="showForm=false" />
 }
 
 <!-- Page Inventaire des Produits -->
@@ -30,7 +30,7 @@
           type="text"
           [(ngModel)]="searchTerm"
           placeholder="Rechercher un produit..."
-          class="w-full pl-9 pr-4 py-2 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+          class=" pr-100 pl-9 py-2 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
         />
       </div>
       <!-- Filtre Entrepôt -->
